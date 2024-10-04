@@ -4,6 +4,11 @@ namespace CleanArchitecture.Domain
 {
     public class Video : BaseDomainModel
     {
+        public Video ()
+        {
+            Actors = new HashSet<Actor>();
+        }
+
         public string? Name                 { get; set; }
 
         #region LlaveForanea
@@ -20,5 +25,7 @@ namespace CleanArchitecture.Domain
         /// </summary>
         public virtual Streamer? Streamer    { get; set; }
         #endregion
+    
+        public virtual ICollection<Actor>? Actors { get; set; }
     }
 }
