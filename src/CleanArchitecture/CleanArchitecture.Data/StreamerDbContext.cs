@@ -20,6 +20,21 @@ namespace CleanArchitecture.Data
                 .EnableSensitiveDataLogging();
         }
 
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            //FluentAPI
+            //De uno a muchos
+            //Utilizar cuando usas una llave foranea
+            //que no utiliza la convension de EntityFramework
+            //Es una buena practica usarlo tambien :)
+            modelBuilder.Entity<Streamer>()
+                        .HasMany(m => m.Videos)
+                        .WithOne(m => m.Streamer)
+                        .HasForeignKey(m => m.StreamerId)
+                        .IsRequired()
+                        .OnDelete(DeleteBehavior.Restrict);
+        }
+
         public DbSet<Streamer>? Streamers    { get; set; }
         public DbSet<Video>? Videos          { get; set; }
     }
