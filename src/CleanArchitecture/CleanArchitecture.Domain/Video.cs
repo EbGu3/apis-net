@@ -1,8 +1,9 @@
-﻿namespace CleanArchitecture.Domain
+﻿using CleanArchitecture.Domain.Common;
+
+namespace CleanArchitecture.Domain
 {
-    public class Video
+    public class Video : BaseDomainModel
     {
-        public long Id                      { get; set; }
         public string? Name                 { get; set; }
 
         #region LlaveForanea
