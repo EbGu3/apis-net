@@ -4,8 +4,30 @@ using Microsoft.EntityFrameworkCore;
 
 StreamerDbContext dbContext = new();
 
-//await QueryFilterPartialResult();
-await QueryMethods();
+
+//await QueryLinq();
+await QueryLinqWhere();
+
+async Task QueryLinqWhere()
+    => await (
+            from i in dbContext.Streamers
+            where EF.Functions.Like(i.Name, "%I%")
+            select i
+       )
+       .ForEachAsync(record =>
+       {
+           Console.WriteLine($"Streamer: {record.Name}");
+       });
+
+async Task QueryLinq ()
+    => await (
+            from i in dbContext.Streamers
+            select i
+       )
+       .ForEachAsync(record =>
+       {
+            Console.WriteLine($"Streamer: {record.Name}");
+       });
 
 async Task QueryMethods()
 {
