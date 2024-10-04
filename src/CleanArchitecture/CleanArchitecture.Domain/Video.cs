@@ -11,7 +11,7 @@ namespace CleanArchitecture.Domain
 
         public string? Name                 { get; set; }
 
-        #region LlaveForanea
+        #region LlaveForaneaAStreamer
         /// <summary>
         /// Entity Framework te obliga a que cuando es una 
         /// llave foranea <NOMBRE_TABLA_SINGULAR><ID>
@@ -27,5 +27,8 @@ namespace CleanArchitecture.Domain
         #endregion
     
         public virtual ICollection<Actor>? Actors { get; set; }
+    
+        // Para relacionar para director
+        public virtual Director Director { get; set; }
     }
 }

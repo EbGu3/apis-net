@@ -3,8 +3,70 @@ using CleanArchitecture.Domain;
 using Microsoft.EntityFrameworkCore;
 
 StreamerDbContext dbContext = new();
+await AddNewDirectorWithVideo();
 
-await TrackingAndNotTracking();
+async Task AddNewDirectorWithVideo ()
+{
+    Director director = new()
+    {
+        Name = "Liseth",
+        LastName = "Coy",
+        VideoId = 9,
+    };
+
+    await dbContext.AddAsync(director);
+    await dbContext.SaveChangesAsync();
+}
+
+async Task AddNewActorVideo ()
+{
+    Actor actor = new()
+    {
+        Name = "Jisca",
+        LastName = "Guerra",
+    };
+    await dbContext.AddAsync(actor);
+    await dbContext.SaveChangesAsync();
+
+    VideoActor videoActor = new()
+    {
+        ActorId = actor.Id,
+        VideoId = 4
+    };
+
+    await dbContext.AddAsync(videoActor);
+    await dbContext.SaveChangesAsync();
+}
+
+async Task AddNewStreamerWithVideoId()
+{
+    Video video = new()
+    {
+        Name = "The best doctor",
+        StreamerId = 9
+    };
+
+    await dbContext.AddAsync(video);
+    await dbContext.SaveChangesAsync();
+}
+
+async Task AddNewStreamerWithVideo ()
+{
+    Streamer streamer = new()
+    {
+        Name = "Daniel",
+        Url = "http://www.twitch.tv/daniel"
+    };
+
+    Video video = new()
+    {
+        Name = "The best bro",
+        Streamer = streamer
+    };
+
+    await dbContext.AddAsync(video);
+    await dbContext.SaveChangesAsync();
+}
 
 async Task TrackingAndNotTracking ()
 {
