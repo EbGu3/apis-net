@@ -4,9 +4,37 @@ using Microsoft.EntityFrameworkCore;
 
 StreamerDbContext dbContext = new();
 
+await TrackingAndNotTracking();
 
-//await QueryLinq();
-await QueryLinqWhere();
+async Task TrackingAndNotTracking ()
+{
+
+    // Traking por deaful incorporado
+    // Se mantiene en memoria
+    // Para ejecutar el update or delete
+    Streamer? streamerTraking = await dbContext.Streamers
+                                               .FirstOrDefaultAsync(record =>
+                                                   record.Name == "Rubiely"
+                                               );
+
+    // No dejar usar el metodo FindAsync
+    // Libera el objeto de memoria temporal
+    // No deja actualizar el objeto
+    
+    // Usar este metodo cuando sea una alta demanda
+    // a la base de datos. Y no se requiera que estos
+    // despues sean actualizados o eliminar 
+    Streamer? streamerNotTraking = await dbContext.Streamers
+                                                  .AsNoTracking()
+                                                  .FirstOrDefaultAsync(record =>
+                                                     record.Name == "Ivanna"
+                                                  );
+
+    streamerTraking.Name = "Rubiely Princess";
+    streamerNotTraking.Name = "Ivanna Queen";
+
+    await dbContext.SaveChangesAsync();
+}
 
 async Task QueryLinqWhere()
     => await (
