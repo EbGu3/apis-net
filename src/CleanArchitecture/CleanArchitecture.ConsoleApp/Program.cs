@@ -3,7 +3,43 @@ using CleanArchitecture.Domain;
 using Microsoft.EntityFrameworkCore;
 
 StreamerDbContext dbContext = new();
-await AddNewDirectorWithVideo();
+await MultipleEntitiesQuery();
+
+async Task MultipleEntitiesQuery()
+{
+
+    var videoWithActors = await dbContext!.Videos!
+                                         .Include
+                                         (record =>
+                                            record!.Actors
+                                         )
+                                         .FirstOrDefaultAsync(record =>
+                                            record.Id == 1
+                                         );
+
+    var actor = await dbContext!.Actors!
+                                .Select(record =>
+                                    record.Name
+                                )
+                                .ToListAsync();
+
+    var videoWithDirector = await dbContext!.Videos!
+                                            .Include(record =>
+                                                record.Director
+                                            )
+                                            .Select(q => new
+                                                {
+                                                    Director = $"{q.Director!.Name}. {q.Director!.LastName}",
+                                                    Movie = q.Name
+                                                }
+                                            )
+                                            .ToListAsync();
+
+    foreach (var movie in videoWithDirector)
+    {
+        Console.WriteLine($"{movie.Movie} - {movie.Director}");
+    }
+}
 
 async Task AddNewDirectorWithVideo ()
 {

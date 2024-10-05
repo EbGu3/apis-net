@@ -5,13 +5,13 @@
 namespace CleanArchitecture.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class addtablerelation : Migration
+    public partial class InitialCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Actor",
+                name: "Actors",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -21,7 +21,7 @@ namespace CleanArchitecture.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Actor", x => x.Id);
+                    table.PrimaryKey("PK_Actors", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -59,7 +59,7 @@ namespace CleanArchitecture.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Director",
+                name: "Directors",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -70,9 +70,9 @@ namespace CleanArchitecture.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Director", x => x.Id);
+                    table.PrimaryKey("PK_Directors", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Director_Videos_VideoId",
+                        name: "FK_Directors_Videos_VideoId",
                         column: x => x.VideoId,
                         principalTable: "Videos",
                         principalColumn: "Id",
@@ -90,9 +90,9 @@ namespace CleanArchitecture.Data.Migrations
                 {
                     table.PrimaryKey("PK_VideoActor", x => new { x.ActorId, x.VideoId });
                     table.ForeignKey(
-                        name: "FK_VideoActor_Actor_ActorId",
+                        name: "FK_VideoActor_Actors_ActorId",
                         column: x => x.ActorId,
-                        principalTable: "Actor",
+                        principalTable: "Actors",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
@@ -104,8 +104,8 @@ namespace CleanArchitecture.Data.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Director_VideoId",
-                table: "Director",
+                name: "IX_Directors_VideoId",
+                table: "Directors",
                 column: "VideoId",
                 unique: true);
 
@@ -124,13 +124,13 @@ namespace CleanArchitecture.Data.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Director");
+                name: "Directors");
 
             migrationBuilder.DropTable(
                 name: "VideoActor");
 
             migrationBuilder.DropTable(
-                name: "Actor");
+                name: "Actors");
 
             migrationBuilder.DropTable(
                 name: "Videos");
