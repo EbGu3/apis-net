@@ -9,7 +9,7 @@ namespace CleanArchitecture.Domain
             Actors = new HashSet<Actor>();
         }
 
-        public string? Name                 { get; set; }
+        public string? Name                         { get; set; }
 
         #region LlaveForaneaAStreamer
         /// <summary>
@@ -26,9 +26,9 @@ namespace CleanArchitecture.Domain
         public virtual Streamer? Streamer    { get; set; }
         #endregion
     
-        public virtual ICollection<Actor>? Actors { get; set; }
+        public virtual ICollection<Actor>? Actors   { get; set; }
     
         // Para relacionar para director
-        public virtual Director Director { get; set; }
+        public virtual Director Director            { get; set; }
     }
 }
