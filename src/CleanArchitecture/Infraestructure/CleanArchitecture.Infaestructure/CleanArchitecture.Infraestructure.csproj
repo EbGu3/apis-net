@@ -15,11 +15,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\CleanArchitecture.Domain\CleanArchitecture.Domain.csproj" />
+    <Folder Include="Migrations\" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Migrations\" />
+    <ProjectReference Include="..\..\Core\CleanArchitecture.Domain\CleanArchitecture.Domain.csproj" />
   </ItemGroup>
 
 </Project>
