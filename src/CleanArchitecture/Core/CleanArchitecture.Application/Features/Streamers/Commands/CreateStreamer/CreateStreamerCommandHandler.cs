@@ -6,23 +6,23 @@ using CleanArchitecture.Application.Contracts.Persistence;
 using CleanArchitecture.Application.Contracts.Infraestructure;
 using CleanArchitecture.Application.Models.Infraestructure;
 
-namespace CleanArchitecture.Application.Features.Streamers.Commands
+namespace CleanArchitecture.Application.Features.Streamers.Commands.CreateStreamer
 {
-    public class StreamerCommandHandler 
+    public class CreateStreamerCommandHandler
         (
             IStreamerRepository streamerRepository,
-            ILogger<StreamerCommandHandler> logger,
+            ILogger<CreateStreamerCommandHandler> logger,
             IEmailService emailService,
             IMapper mapper
         )
-        : IRequestHandler<StreamerCommand, int>
+        : IRequestHandler<CreateStreamerCommand, int>
     {
         private readonly IStreamerRepository _streamerRepository = streamerRepository;
-        private readonly ILogger<StreamerCommandHandler> _logger = logger;
+        private readonly ILogger<CreateStreamerCommandHandler> _logger = logger;
         private readonly IEmailService _emailService = emailService;
         private readonly IMapper _mapper = mapper;
 
-        public async Task<int> Handle(StreamerCommand request, CancellationToken cancellationToken)
+        public async Task<int> Handle(CreateStreamerCommand request, CancellationToken cancellationToken)
         {
             Streamer? streamerEntity = _mapper.Map<Streamer>(request) ?? throw new ApplicationException("Mapper failed to map StreamerCommand to Streamer entity."); ;
 
@@ -33,13 +33,13 @@ namespace CleanArchitecture.Application.Features.Streamers.Commands
             return newStreamer.Id;
         }
 
-        private async Task<bool> SendEmail (Streamer streamer)
+        private async Task<bool> SendEmail(Streamer streamer)
         {
-            Email email = new() 
+            Email email = new()
             {
-                 Body = $"La compañia {streamer.Name} se ha creado correctamente",
-                 Subject = "Mensaje de alerta",
-                 To = "eb@gmail.com"
+                Body = $"La compañia {streamer.Name} se ha creado correctamente",
+                Subject = "Mensaje de alerta",
+                To = "eb@gmail.com"
             };
 
             try
