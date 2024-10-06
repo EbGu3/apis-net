@@ -11,6 +11,7 @@ namespace CleanArchitecture.Application.Mappings
         {
             CreateMap<Video, VideosVm>();
             CreateMap<CreateStreamerCommand, Streamer>();
+            CreateMap<CreateStreamerCommand, CreatedStreamerVm>();
         }
     }
 }
