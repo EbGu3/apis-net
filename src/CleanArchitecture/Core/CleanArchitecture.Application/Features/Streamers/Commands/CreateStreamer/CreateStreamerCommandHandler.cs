@@ -3,8 +3,8 @@ using AutoMapper;
 using CleanArchitecture.Domain;
 using Microsoft.Extensions.Logging;
 using CleanArchitecture.Application.Contracts.Persistence;
-using CleanArchitecture.Application.Contracts.Infraestructure;
 using CleanArchitecture.Application.Models.Infraestructure;
+using CleanArchitecture.Application.Contracts.Infraestructure;
 
 namespace CleanArchitecture.Application.Features.Streamers.Commands.CreateStreamer
 {
@@ -15,14 +15,14 @@ namespace CleanArchitecture.Application.Features.Streamers.Commands.CreateStream
             IEmailService emailService,
             IMapper mapper
         )
-        : IRequestHandler<CreateStreamerCommand, int>
+        : IRequestHandler<CreateStreamerCommand, CreatedStreamerVm>
     {
         private readonly IStreamerRepository _streamerRepository = streamerRepository;
         private readonly ILogger<CreateStreamerCommandHandler> _logger = logger;
         private readonly IEmailService _emailService = emailService;
         private readonly IMapper _mapper = mapper;
 
-        public async Task<int> Handle(CreateStreamerCommand request, CancellationToken cancellationToken)
+        public async Task<CreatedStreamerVm> Handle(CreateStreamerCommand request, CancellationToken cancellationToken)
         {
             Streamer? streamerEntity = _mapper.Map<Streamer>(request) ?? throw new ApplicationException("Mapper failed to map StreamerCommand to Streamer entity."); ;
 
@@ -30,7 +30,8 @@ namespace CleanArchitecture.Application.Features.Streamers.Commands.CreateStream
             _logger.LogInformation("Streamer ID = {}, creado exitosamente", newStreamer.Id);
 
             await SendEmail(newStreamer);
-            return newStreamer.Id;
+
+            return _mapper.Map<CreatedStreamerVm>(newStreamer);
         }
 
         private async Task<bool> SendEmail(Streamer streamer)
